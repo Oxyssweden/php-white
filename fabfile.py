@@ -9,7 +9,7 @@ from fabric.contrib.project import *
 Environments
 """
 def dev():
-        env.hosts = ['192.168.3.101']
+        env.hosts = ['192.168.3.102']
         env.user = 'pi'
         env.path = '/var/www'
 dev()
