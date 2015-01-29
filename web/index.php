@@ -8,7 +8,7 @@
  * @version //autogentag//
  */
 
-require_once __DIR__.'/../vendor/autoload.php';
+require_once '/var/www/vendor/autoload.php';
 use Symfony\Component\HttpFoundation\Response;
 
 use PhpGpio\Gpio;
@@ -16,7 +16,7 @@ use PhpGpio\Gpio;
 $app = new Silex\Application();
 
 $app->get('/blink/{id}', function ($id) use ($app) {
-    $msg = exec("sudo -t /usr/bin/php ../blinker $id 90000");
+    $msg = exec("sudo -t /usr/bin/php /var/www/vendor/ronanguilloux/php-gpio/blinker $id 90000");
     $code = ("" === trim($msg)) ? 200 : 500;
     return new Response($msg, $code);
 });
