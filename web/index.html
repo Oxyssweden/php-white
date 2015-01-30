@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <title>Blinkers</title>
+        <style>
+            input[type=number] {
+                width: 3em;
+            }
+        </style>
+    </head>
+    <body>
+
+
+      	<input type="number" class="bgdIdInput" value="164153" style="width: 150px;">
+      	<button>Get game rating!</button>
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script type="text/javascript">
+        	
+        var data = '';
+         $('button').click(function () {
+         		var bggId = $('.bgdIdInput').val();
+
+         		$.post('bgg.php', { bgg_id: bggId } ,function(data){
+       		    console.log(data);
+
+   		      		$.post('index.php', { rate: data } ,function(x){
+   		    		  });
+       		  });
+         });
+        </script>
+    </body>
+</html>

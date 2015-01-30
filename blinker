@@ -33,20 +33,58 @@ if (
     throw new \Exception($msg);
 }
 
-
-$pin = (int)$argv[1];
+$score = (int)$argv[1];
 $sleeper = (int)$argv[2];
 $gpio = new GPIO();
+$arr = [18, 17, 27, 22, 5, 6, 13, 19, 26, 21];
+$arrReverse = array_reverse($arr);
 
-if(!in_array($pin, $gpio->getHackablePins())){
-    echo $msg = "$pin is not a hackable gpio pin number";
-    throw new \InvalidArgumentException($msg);
+for($i = 0; $i < $score; $i++) {
+	$gpio->setup($arr[$i], 'out');
 }
 
-$gpio->setup($pin, "out");
-$gpio->output($pin, 1);
+// Startip animation
+for($j = 0; $j < 3; $j++) {
+	$delay = 55000;
+	for($i = 0; $i < 10; $i++) {
+		$delay -= 5000;
+		$gpio->output($arr[$i], 1);
+		usleep($delay);
+		$gpio->output($arr[$i], 0);
+	}
+
+	$delay = 55000;
+	for($i = 0; $i < 10; $i++) {
+		$delay -= 5000;
+		$gpio->output($arrReverse[$i], 1);
+		usleep($delay);
+		$gpio->output($arrReverse[$i], 0);
+	}
+}
+
+// Tänd upp alla efter varandra
+for($i = 0; $i < $score; $i++) {
+	$gpio->output($arr[$i], 1);
+	usleep(100000);
+}
+
+// Blinka 3 gånger
+for($n = 0; $n < 3; $n++) {
+	usleep(300000);
+	// Släck
+	for($j = 0; $j < $score; $j++) {
+		$gpio->output($arr[$j], 0);
+	}
+	usleep(300000);
+	// Tänd
+	for($k = 0; $k < $score; $k++) {
+		$gpio->output($arr[$k], 1);
+	}
+}
+
+// Stäng ner allt
 usleep($sleeper);
-$gpio->output($pin, 0);
-
+for($i = 0; $i < $score; $i++) {
+	$gpio->output($arr[$i], 0);
+}
 $gpio->unexportAll();
-

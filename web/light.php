@@ -12,8 +12,13 @@ require_once __DIR__.'/../vendor/autoload.php';
 use Symfony\Component\HttpFoundation\Response;
 use PhpGpio\Gpio;
 
-$rate = $_POST['rate'];
-$string = "sudo -t /usr/bin/php ../blinker $rate 9000000";
-$msg = exec($string);
-$code = ("" === trim($msg)) ? 200 : 500;
-return new Response($msg, $code);
+$rate = $_POST['rate']
+
+$arr = [18, 17, 27, 22, 5, 6, 13, 19, 26, 'hatt'];
+
+for($i = 0; $i < $rate $i++) {
+  $msg = exec("sudo -t /usr/bin/php ../blinker $arr[$i] 900000");
+  $code = ("" === trim($msg)) ? 200 : 500;
+  return new Response($msg, $code);
+}
+?>
